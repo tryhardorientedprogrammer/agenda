@@ -330,6 +330,7 @@ function ExcluirMedicoServer(codigo) {
             title: 'SUCESSO',
             text: 'OS DADOS FORAM EXCLUÍDOS!',
           });
+          fechar();
 
         } else {
 
@@ -784,7 +785,6 @@ var handleDataTableCombinationSetting = function () {
     $('#data-table tbody').on('click', '#btexcluir', function () {
       var data = tabelamedicos.row($(this).parents('tr')).data();
       excluirmedico(data[0]);
-      fechar();
     });
   }
 
