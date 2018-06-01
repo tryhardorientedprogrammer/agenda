@@ -330,7 +330,6 @@ function ExcluirMedicoServer(codigo) {
             title: 'SUCESSO',
             text: 'OS DADOS FORAM EXCLUÍDOS!',
           });
-          fechar();
 
         } else {
 
