@@ -6,17 +6,18 @@ Author: paulo cezar luz
 var tabelamedicos;
 var dadosconsulta = [];
 var glbevt = {};
-var glbletra = '';
+var glbletra = "";
 //----------------------------------------------------------------------------------------------
 //FUNCÕES DE CONSULTAS--------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------
-function GetMedicosCodigo(codigo) { //função para carregar os dados medico usando xhr
+function GetMedicosCodigo(codigo) {
+  //função para carregar os dados medico usando xhr
 
   //nessa função não precisa de validar limite de caracteres
 
   var xhr = new XMLHttpRequest(); //xhr
   xhr.timeout = 10000;
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
     if (this.readyState == 4) {
       if (this.status == 200) {
         myObj = null;
@@ -24,16 +25,18 @@ function GetMedicosCodigo(codigo) { //função para carregar os dados medico usa
         myObj = JSON.parse(this.responseText);
         if (typeof myObj[0] == "undefined") {
           beep();
-          swal({ //verificar se os dados não foram encontrados, depois de ter inserido
-            type: 'error',
-            title: 'ERRO',
-            text: 'DADOS NÃO ENCONTRADOS',
+          swal({
+            //verificar se os dados não foram encontrados, depois de ter inserido
+            type: "error",
+            title: "ERRO",
+            text: "DADOS NÃO ENCONTRADOS"
           });
         } else {
           //ENCHER O MODAL COM OS DADOS DO RESULTADO
           document.getElementById("cdCtr").value = myObj[0].cdCtr;
           document.getElementById("nmMedico").value = myObj[0].nmMedico;
-          document.getElementById("cdEspecialidade").selectedIndex = myObj[0].cdEspecialidade;
+          document.getElementById("cdEspecialidade").selectedIndex =
+            myObj[0].cdEspecialidade;
           document.getElementById("cdTpDoc").selectedIndex = myObj[0].cdTpDoc;
           document.getElementById("cep").value = myObj[0].cep;
           document.getElementById("nrDoc").value = myObj[0].nrDoc;
@@ -59,10 +62,14 @@ function GetMedicosCodigo(codigo) { //função para carregar os dados medico usa
             document.getElementById("email").value = myObj[0].email;
 
           if (typeof myObj[0].dtNasc !== "undefined")
-            document.getElementById("dt_nasc").value = formatDate(myObj[0].dtNasc);
+            document.getElementById("dt_nasc").value = formatDate(
+              myObj[0].dtNasc
+            );
 
           if (typeof myObj[0].dtFormatura !== "undefined")
-            document.getElementById("dt_formatura").value = formatDate(myObj[0].dtFormatura);
+            document.getElementById("dt_formatura").value = formatDate(
+              myObj[0].dtFormatura
+            );
 
           if (typeof myObj[0].cpf !== "undefined")
             document.getElementById("cpf").value = myObj[0].cpf;
@@ -71,7 +78,8 @@ function GetMedicosCodigo(codigo) { //função para carregar os dados medico usa
             document.getElementById("rg").value = myObj[0].rg;
 
           if (typeof myObj[0].cdInstituicao !== "undefined")
-            document.getElementById("cd_instituicao").value = myObj[0].cdInstituicao;
+            document.getElementById("cd_instituicao").value =
+              myObj[0].cdInstituicao;
 
           if (typeof myObj[0].pontoRef !== "undefined")
             document.getElementById("ponto_ref").value = myObj[0].pontoRef;
@@ -86,40 +94,48 @@ function GetMedicosCodigo(codigo) { //função para carregar os dados medico usa
             document.getElementById("cd_cid_logra").value = myObj[0].cdCidLogra;
 
           if (typeof myObj[0].dtCad !== "undefined")
-            document.getElementById("dt_cad").value = formatDate(myObj[0].dtCad);
-
+            document.getElementById("dt_cad").value = formatDate(
+              myObj[0].dtCad
+            );
         }
-
       } else {
-        var sstatus = this.status + ' - Erro não tratado'; //verificando se o servidor está offline
+        var sstatus = this.status + " - Erro não tratado"; //verificando se o servidor está offline
         switch (this.status) {
           case 0:
             sstatus = "Erro na conexão";
             break;
           case 404:
-            sstatus = "404 - A URL informada não e válida ou servidor fora do ar";
+            sstatus =
+              "404 - A URL informada não e válida ou servidor fora do ar";
             break;
           case 401:
             sstatus = "401 - Acesso negado";
             break;
           case 500:
-            sstatus = "500 - Erro interno provalvemente parâmetro de consulta não informado";
+            sstatus =
+              "500 - Erro interno provalvemente parâmetro de consulta não informado";
             break;
           case 599:
             sstatus = "599 -" + msgServer;
             break;
         }
-        if (this.status = 0) sstatus = "Timeout de conexão"
+        if ((this.status = 0)) sstatus = "Timeout de conexão";
         beep();
         swal({
-          type: 'error',
-          title: 'ERRO',
-          text: 'Erro: ' + sstatus,
+          type: "error",
+          title: "ERRO",
+          text: "Erro: " + sstatus
         });
       }
     }
   };
-  xhr.open("GET", 'http://177.72.161.135:9180/soa/esb/cupom/glbMedicos?obj={"cdCtr":' + codigo + '}', true);
+  xhr.open(
+    "GET",
+    'http://177.72.161.135:9180/soa/esb/cupom/glbMedicos?obj={"cdCtr":' +
+      codigo +
+      "}",
+    true
+  );
   xhr.send();
   //xhr get method
 }
@@ -129,7 +145,8 @@ function atualizarMedicoServer() {
   var cdCtr = document.getElementById("cdCtr").value;
   var cdEmp = 1;
   var nmMedico = document.getElementById("nmMedico").value;
-  var cdEspecialidade = document.getElementById("cdEspecialidade").selectedIndex;
+  var cdEspecialidade = document.getElementById("cdEspecialidade")
+    .selectedIndex;
   var cdTpDoc = document.getElementById("cdTpDoc").selectedIndex;
   var cep = document.getElementById("cep").value;
   var nrDoc = document.getElementById("nrDoc").value;
@@ -156,47 +173,47 @@ function atualizarMedicoServer() {
 
   if (nmMedico == "") {
     swal({
-      type: 'error',
-      title: 'ERRO',
-      text: 'INSIRA O NOME DO MEDICO'
+      type: "error",
+      title: "ERRO",
+      text: "INSIRA O NOME DO MEDICO"
     });
-    e.preventDefault();
+    event.preventDefault();
   }
 
   var select = document.getElementById("cdEspecialidade");
   if (select.value == 0) {
     swal({
-      type: 'error',
-      title: 'ERRO',
-      text: 'INSIRA UMA ESPECIALIDADE'
+      type: "error",
+      title: "ERRO",
+      text: "INSIRA UMA ESPECIALIDADE"
     });
-    e.preventDefault();
+    event.preventDefault();
   }
 
   if (dtCad == "") {
     swal({
-      type: 'error',
-      title: 'ERRO',
-      text: 'INSIRA A DATA DO CADASTRO'
+      type: "error",
+      title: "ERRO",
+      text: "INSIRA A DATA DO CADASTRO"
     });
-    e.preventDefault();
+    event.preventDefault();
   }
 
   if (dtFormatura == "") {
     swal({
-      type: 'error',
-      title: 'ERRO',
-      text: 'INSIRA A DATA DA FORMATURA'
+      type: "error",
+      title: "ERRO",
+      text: "INSIRA A DATA DA FORMATURA"
     });
-    e.preventDefault();
+    event.preventDefault();
   }
 
   if (dtNasc == "") {
     swal({
-      type: 'error',
-      text: 'INSIRA A DATA DO NASCIMENTO'
+      type: "error",
+      text: "INSIRA A DATA DO NASCIMENTO"
     });
-    e.preventDefault();
+    event.preventDefault();
   }
 
   //MONTAR O json
@@ -206,36 +223,35 @@ function atualizarMedicoServer() {
   var urlEncodedDataPairs = [];
 
   var dados = {
-    "cdCtr": cdCtr,
-    "cdEmp": cdEmp,
-    "nmMedico": nmMedico,
-    "cdEspecialidade": cdEspecialidade,
-    "cdTpDoc": cdTpDoc,
-    "cep": cep,
-    "nrDoc": nrDoc,
-    "cdCid": cdCid,
-    "stDoc": stDoc,
-    "ufDoc": ufDoc,
-    "cdUsu": cdUsu,
-    "endereco": endereco,
-    "bairro": bairro,
-    "telefone": telefone,
-    "fax": fax,
-    "email": email,
-    "dtNasc": dtNasc,
-    "dtFormatura": dtFormatura,
-    "cpf": cpf,
-    "rg": rg,
-    "cdInstituicao": cdInstituicao,
-    "pontoRef": pontoRef,
-    "complemento": complemento,
-    "nrEnd": nrEnd,
-    "dtCad": dtCad,
-    "cdCidLogra": cdCidLogra
-
+    cdCtr: cdCtr,
+    cdEmp: cdEmp,
+    nmMedico: nmMedico,
+    cdEspecialidade: cdEspecialidade,
+    cdTpDoc: cdTpDoc,
+    cep: cep,
+    nrDoc: nrDoc,
+    cdCid: cdCid,
+    stDoc: stDoc,
+    ufDoc: ufDoc,
+    cdUsu: cdUsu,
+    endereco: endereco,
+    bairro: bairro,
+    telefone: telefone,
+    fax: fax,
+    email: email,
+    dtNasc: dtNasc,
+    dtFormatura: dtFormatura,
+    cpf: cpf,
+    rg: rg,
+    cdInstituicao: cdInstituicao,
+    pontoRef: pontoRef,
+    complemento: complemento,
+    nrEnd: nrEnd,
+    dtCad: dtCad,
+    cdCidLogra: cdCidLogra
   };
   //SE ESTIVER INSERINDO
-  if (cdCtr == '0') {
+  if (cdCtr == "0") {
     obj.push(dados);
     params = "obj=" + JSON.stringify(dados);
   } else {
@@ -245,7 +261,7 @@ function atualizarMedicoServer() {
   var xhr = new XMLHttpRequest(); //xhr
   var url = "http://177.72.161.135:9180/soa/esb/cupom/glbMedicos";
 
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
     if (this.readyState == 4) {
       msgServer = this.responseText;
       if (this.status == 200) {
@@ -253,28 +269,28 @@ function atualizarMedicoServer() {
 
         if (this.responseText == "1") {
           swal({
-            type: 'success',
-            title: 'SUCESSO',
-            text: 'DADOS FORAM ATUALIZADOS/CADASTRADOS',
+            type: "success",
+            title: "SUCESSO",
+            text: "DADOS FORAM ATUALIZADOS/CADASTRADOS"
           });
-
+          document.getElementById("btexcluir").click();
         } else {
           beep();
           swal({
-            type: 'error',
-            title: 'ERROR',
-            text: 'OS DADOS NÃO FORAM ALTERADOS/CADASTRADOS',
+            type: "error",
+            title: "ERROR",
+            text: "OS DADOS NÃO FORAM ALTERADOS/CADASTRADOS"
           });
-
         }
       } else {
-        var sstatus = this.status + ' Erro nao tratado'; //verificando se o servidor está offline
+        var sstatus = this.status + " Erro nao tratado"; //verificando se o servidor está offline
         switch (this.status) {
           case 0:
             sstatus = "Timeout de conexão";
             break;
           case 404:
-            sstatus = "404 - A url informada não é válida ou servidor fora do ar";
+            sstatus =
+              "404 - A url informada não é válida ou servidor fora do ar";
             break;
           case 401:
             sstatus = "401 - " + msgServer;
@@ -287,21 +303,21 @@ function atualizarMedicoServer() {
             break;
         }
 
-        if (this.status = 0) sstatus = "Timeout de conexão"
+        if ((this.status = 0)) sstatus = "Timeout de conexão";
         beep();
         swal({
-          type: 'error',
-          title: 'ERRO',
-          text: 'Erro: ' + sstatus
+          type: "error",
+          title: "ERRO",
+          text: "Erro: " + sstatus
         });
       }
-    };
+    }
   };
   //VERIFICAR SE ESTA INSERINDO OU EDITANDO
   //SE INSERINDO O CODIGO E VAZIO
-  if (cdCtr == '0') {
+  if (cdCtr == "0") {
     xhr.open("POST", url, true); //ABRIR A CONEXAO COM O
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   } else {
     xhr.open("PUT", url, true); //ABRIR A CONEXAO COM O
   }
@@ -310,44 +326,43 @@ function atualizarMedicoServer() {
 
 function ExcluirMedicoServer(codigo) {
   var dados = {
-    "cdEmp": 1,
-    "cdCtr": codigo
+    cdEmp: 1,
+    cdCtr: codigo
   };
   var msgServer;
   var xhr = new XMLHttpRequest(); //xhr
   var url = "http://177.72.161.135:9180/soa/esb/cupom/glbMedicos";
   var params = JSON.stringify(dados);
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
     if (this.readyState == 4) {
       msgServer = this.responseText;
       if (this.status == 200) {
         myObj = null;
         myObj = JSON.parse(this.responseText);
         if (this.responseText == "1") {
-
           swal({
-            type: 'success',
-            title: 'SUCESSO',
-            text: 'OS DADOS FORAM EXCLUÍDOS!',
+            type: "success",
+            title: "SUCESSO",
+            text: "OS DADOS FORAM EXCLUÍDOS!"
           });
-
+          $('#recarregarespecial').trigger('click');
         } else {
-
-          swal({ //verificar se os dados não foram encontrados, depois de ter inserido
-            type: 'error',
-            title: 'ERRO',
-            text: 'OS DADOS NÃO FORAM EXCLUÍDOS!',
+          swal({  
+            //verificar se os dados não foram encontrados, depois de ter inserido
+            type: "error",
+            title: "ERRO",
+            text: "OS DADOS NÃO FORAM EXCLUÍDOS!"
           });
-
         }
       } else {
-        var sstatus = this.status + 'Erro desconhecido'; //verificando se o servidor está offline
+        var sstatus = this.status + "Erro desconhecido"; //verificando se o servidor está offline
         switch (this.status) {
           case 0:
             sstatus = "Timeout de conexão";
             break;
           case 404:
-            sstatus = "404 - A url informada não é válida ou servidor fora do ar";
+            sstatus =
+              "404 - A url informada não é válida ou servidor fora do ar";
             break;
           case 401:
             sstatus = "401 - " + msgServer;
@@ -356,17 +371,17 @@ function ExcluirMedicoServer(codigo) {
             sstatus = "500 - " + msgServer;
             break;
           case 599:
-            sstatus = "599 - Erro ao excluir cadastro, pois o cadastro está sendo utilizado em outra tabela."
+            sstatus =
+              "599 - Erro ao excluir cadastro, pois o cadastro está sendo utilizado em outra tabela.";
             break;
         }
 
-
-        if (this.status = 0) sstatus = "Timeout de conexão"
+        if ((this.status = 0)) sstatus = "Timeout de conexão";
         beep();
         swal({
-          type: 'error',
-          title: 'ERRO',
-          text: 'Erro: ' + sstatus,
+          type: "error",
+          title: "ERRO",
+          text: "Erro: " + sstatus
         });
       }
     }
@@ -377,11 +392,11 @@ function ExcluirMedicoServer(codigo) {
   xhr.send(params); //PASSAR O json PARA O SERVIDOR
 }
 
-
-function GetMedicos(nmMedico) { //função para carregar os dados medico usando xhr
+function GetMedicos(nmMedico) {
+  //função para carregar os dados medico usando xhr
   var txtMedico = document.getElementById("txtmedico").value;
   var xhr = new XMLHttpRequest(); //xhr
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
     if (this.readyState == 4) {
       if (this.status == 200) {
         myObj = null;
@@ -389,9 +404,9 @@ function GetMedicos(nmMedico) { //função para carregar os dados medico usando 
         if (typeof myObj[0] == "undefined") {
           beep();
           swal({
-            type: 'error',
-            title: 'ERRO',
-            text: 'DADOS NÃO ENCONTRADOS',
+            type: "error",
+            title: "ERRO",
+            text: "DADOS NÃO ENCONTRADOS"
           });
         } else {
           tabelamedicos.clear();
@@ -400,45 +415,52 @@ function GetMedicos(nmMedico) { //função para carregar os dados medico usando 
           tabelamedicos.rows.add(dadosconsulta);
           tabelamedicos.draw();
         }
-
       } else {
-        var sstatus = this.status + ' - Erro não tratado'; //verificando se o servidor está offline
+        var sstatus = this.status + " - Erro não tratado"; //verificando se o servidor está offline
         switch (this.status) {
           case 0:
             sstatus = "Erro na conexão";
             break;
           case 404:
-            sstatus = "404 - A URL informada não e válida ou servidor fora do ar";
+            sstatus =
+              "404 - A URL informada não e válida ou servidor fora do ar";
             break;
           case 401:
             sstatus = "401 - Acesso negado";
             break;
           case 500:
-            sstatus = "500 - Erro interno provalvemente parâmetro de consulta não informado";
+            sstatus =
+              "500 - Erro interno provalvemente parâmetro de consulta não informado";
             break;
           case 599:
             sstatus = "599 -" + msgServer;
             break;
         }
-        if (this.status = 0) sstatus = "Timeout de conexão"
+        if ((this.status = 0)) sstatus = "Timeout de conexão";
         beep();
         swal({
-          type: 'error',
-          title: 'ERRO',
-          text: 'Erro: ' + sstatus,
+          type: "error",
+          title: "ERRO",
+          text: "Erro: " + sstatus
         });
       }
     }
   };
 
-  xhr.open("GET", 'http://177.72.161.135:9180/soa/esb/cupom/glbMedicos?obj={"nmMedico":"' + nmMedico + '"}', true);
+  xhr.open(
+    "GET",
+    'http://177.72.161.135:9180/soa/esb/cupom/glbMedicos?obj={"nmMedico":"' +
+      nmMedico +
+      '"}',
+    true
+  );
   xhr.send();
   //xhr get method
 }
 
 function getMedicosCdCtr(codigo) {
   var xhr = new XMLHttpRequest(); //xhr
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
     if (this.readyState == 4) {
       if (this.status == 200) {
         myObj = null;
@@ -446,9 +468,9 @@ function getMedicosCdCtr(codigo) {
         if (typeof myObj[0] == "undefined") {
           beep();
           swal({
-            type: 'error',
-            title: 'ERRO',
-            text: 'DADOS NÃO ENCONTRADOS',
+            type: "error",
+            title: "ERRO",
+            text: "DADOS NÃO ENCONTRADOS"
           });
         } else {
           tabelamedicos.clear();
@@ -457,38 +479,45 @@ function getMedicosCdCtr(codigo) {
           tabelamedicos.rows.add(dadosconsulta);
           tabelamedicos.draw();
         }
-
       } else {
-        var sstatus = this.status + ' - Erro não tratado'; //verificando se o servidor está offline
+        var sstatus = this.status + " - Erro não tratado"; //verificando se o servidor está offline
         switch (this.status) {
           case 0:
             sstatus = "Erro na conexão";
             break;
           case 404:
-            sstatus = "404 - A URL informada não e válida ou servidor fora do ar";
+            sstatus =
+              "404 - A URL informada não e válida ou servidor fora do ar";
             break;
           case 401:
             sstatus = "401 - Acesso negado";
             break;
           case 500:
-            sstatus = "500 - Erro interno provalvemente parâmetro de consulta não informado";
+            sstatus =
+              "500 - Erro interno provalvemente parâmetro de consulta não informado";
             break;
           case 599:
             sstatus = "599 -" + msgServer;
             break;
         }
-        if (this.status = 0) sstatus = "Timeout de conexão"
+        if ((this.status = 0)) sstatus = "Timeout de conexão";
         beep();
         swal({
-          type: 'error',
-          title: 'ERRO',
-          text: 'Erro: ' + sstatus,
+          type: "error",
+          title: "ERRO",
+          text: "Erro: " + sstatus
         });
       }
     }
   };
 
-  xhr.open("GET", 'http://177.72.161.135:9180/soa/esb/cupom/glbMedicos?obj={"cdCtr":"' + codigo + '"}', true);
+  xhr.open(
+    "GET",
+    'http://177.72.161.135:9180/soa/esb/cupom/glbMedicos?obj={"cdCtr":"' +
+      codigo +
+      '"}',
+    true
+  );
   xhr.send();
   //xhr get method
 }
@@ -496,50 +525,46 @@ function getMedicosCdCtr(codigo) {
 //----------------------------------------------------------------------------------------------
 //FUNCÕES PARA INTERAÇÃO COM O HTML-------------------------------------------------------------
 //----------------------------------------------------------------------------------------------
-function criarTabela(conteudo) { //estrutura de como a tabela será feita
+function criarTabela(conteudo) {
+  //estrutura de como a tabela será feita
   //ESTA FUNÇAO PREPARA O JSSON QUE IRA ALIMENTAR A TABELA
   dadosconsulta = [];
   for (var i = 0; i < conteudo.length; i++) {
-
-
     //CONVERTE O VALOR NUMERICO PARA UM NOME DE ESPECIALIDADE
-    var especialidade = '';
+    var especialidade = "";
 
     switch (myObj[i].cdEspecialidade) {
       case 1:
-        especialidade = 'Esteticista';
+        especialidade = "Esteticista";
         break;
       case 2:
-        especialidade = 'Medico';
+        especialidade = "Medico";
         break;
       case 3:
-        especialidade = 'Nutricionista';
+        especialidade = "Nutricionista";
         break;
       case 4:
-        especialidade = 'Dentista';
+        especialidade = "Dentista";
         break;
       case 5:
-        especialidade = 'Veterinario';
+        especialidade = "Veterinario";
         break;
-
     }
     var idata = [
-
       myObj[i].cdCtr,
       myObj[i].nmMedico,
       especialidade,
       myObj[i].ufDoc,
-      '0',
-      '',
-      '' //coluna vazio para colocar os botoes no grid
-
+      "0",
+      "",
+      "" //coluna vazio para colocar os botoes no grid
     ];
     dadosconsulta.push(idata);
-
   }
 }
 
-function validarcodigo(evt) { //validar se o valor inserido é um código
+function validarcodigo(evt) {
+  //validar se o valor inserido é um código
   var theEvent = evt || window.event;
   var key = theEvent.keyCode || theEvent.which;
   key = String.fromCharCode(key);
@@ -549,9 +574,9 @@ function validarcodigo(evt) { //validar se o valor inserido é um código
     if (theEvent.preventDefault) theEvent.preventDefault();
     beep();
     swal({
-      type: 'error',
-      title: 'ERRO',
-      text: 'SOMENTE CÓDIGOS'
+      type: "error",
+      title: "ERRO",
+      text: "SOMENTE CÓDIGOS"
     });
   }
 }
@@ -566,9 +591,9 @@ function validarnomes(evt) {
     if (theEvent.preventDefault) theEvent.preventDefault();
     beep();
     swal({
-      type: 'error',
-      title: 'ERRO',
-      text: 'SOMENTE NOMES'
+      type: "error",
+      title: "ERRO",
+      text: "SOMENTE NOMES"
     });
   }
 }
@@ -587,7 +612,6 @@ function editarmedico(codigo) {
 
 function excluirmedico(codigo) {
   ExcluirMedicoServer(codigo);
-  pesquisarporInicial(glbevt, glbletra);
 }
 
 function pesquisarporInicial(event, letra) {
@@ -599,9 +623,10 @@ function pesquisarporInicial(event, letra) {
   tabcontent.style.display = "none";
 
   tablinks = document.getElementById("tablinks");
-  document.getElementById('tabconsulta').style.display = "block";
+  document.getElementById("tabconsulta").style.display = "block";
 
-  document.getElementById('ptitulotab').innerText = "Medicos iniciando com " + letra;
+  document.getElementById("ptitulotab").innerText =
+    "Medicos iniciando com " + letra;
   event += "active";
   // HTML events are "things" that happen to HTML elements.
   // When JavaScript is used in HTML pages, JavaScript can "react" on these events.
@@ -611,9 +636,9 @@ function pesquisarNomeMedico(event) {
   var str = document.getElementById("txtmedico").value;
   if (str < 1) {
     swal({
-      type: 'error',
-      title: 'ERRO',
-      text: 'DIGITE UM NOME'
+      type: "error",
+      title: "ERRO",
+      text: "DIGITE UM NOME"
     });
     return false;
   } else {
@@ -622,20 +647,21 @@ function pesquisarNomeMedico(event) {
     tabcontent.style.display = "none";
 
     tablinks = document.getElementById("tablinks");
-    document.getElementById('tabconsulta').style.display = "block";
+    document.getElementById("tabconsulta").style.display = "block";
 
-    document.getElementById('ptitulotab').innerText = "Localizando medicos:" + " " + str;
+    document.getElementById("ptitulotab").innerText =
+      "Localizando medicos:" + " " + str;
     event += "active";
   }
 }
 
 function pesquisarCodigoMedico(event) {
-  var int = document.getElementById('txtcdctr').value;
+  var int = document.getElementById("txtcdctr").value;
   if (int < 1) {
     swal({
-      type: 'error',
-      title: 'ERRO',
-      text: 'DIGITE UM CÓDIGO'
+      type: "error",
+      title: "ERRO",
+      text: "DIGITE UM CÓDIGO"
     });
     return false;
   } else {
@@ -646,143 +672,143 @@ function pesquisarCodigoMedico(event) {
     tablinks = document.getElementById("tablinks");
     document.getElementById("tabconsulta").style.display = "block";
 
-    document.getElementById("ptitulotab").innerText = "Localizando medicos:" + " " + int;
+    document.getElementById("ptitulotab").innerText =
+      "Localizando medicos:" + " " + int;
     event += "active";
   }
 }
-
 
 function atualizarMedico() {
   atualizarMedicoServer();
 }
 
 function limparModal() {
-  document.getElementById("cdCtr").value = '0';
-  document.getElementById("nmMedico").value = '';
+  document.getElementById("cdCtr").value = "0";
+  document.getElementById("nmMedico").value = "";
   document.getElementById("cdEspecialidade").selectedIndex = 0;
   document.getElementById("cdTpDoc").selectedIndex = 0;
-  document.getElementById("cep").value = '';
-  document.getElementById("nrDoc").value = '';
-  document.getElementById("dt_cad").value = '';
-  document.getElementById("cdCid").value = '';
+  document.getElementById("cep").value = "";
+  document.getElementById("nrDoc").value = "";
+  document.getElementById("dt_cad").value = "";
+  document.getElementById("cdCid").value = "";
   document.getElementById("stDoc").selectedIndex = 0;
   document.getElementById("ufDoc").selectedIndex = 0;
-  document.getElementById("endereco").value = '';
-  document.getElementById("bairro").value = '';
-  document.getElementById("telefone").value = '';
-  document.getElementById("fax").value = '';
-  document.getElementById("email").value = '';
-  document.getElementById("dt_nasc").value = '';
-  document.getElementById("dt_formatura").value = '';
-  document.getElementById("cpf").value = '';
-  document.getElementById("rg").value = '';
+  document.getElementById("endereco").value = "";
+  document.getElementById("bairro").value = "";
+  document.getElementById("telefone").value = "";
+  document.getElementById("fax").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("dt_nasc").value = "";
+  document.getElementById("dt_formatura").value = "";
+  document.getElementById("cpf").value = "";
+  document.getElementById("rg").value = "";
   document.getElementById("cd_instituicao").value = 1;
-  document.getElementById("ponto_ref").value = '';
-  document.getElementById("complemento").value = '';
-  document.getElementById("nr_end").value = '';
-  document.getElementById("cd_cid_logra").value = '1';
+  document.getElementById("ponto_ref").value = "";
+  document.getElementById("complemento").value = "";
+  document.getElementById("nr_end").value = "";
+  document.getElementById("cd_cid_logra").value = "1";
 }
-
-
 
 //----------------------------------------------------------------------------------------------
 //INICIALIZAR O DATATABLE-----------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------
 
-var handleDataTableCombinationSetting = function () {
+var handleDataTableCombinationSetting = function() {
   "use strict";
 
-  if ($('#data-table').length !== 0) {
-    tabelamedicos = $('#data-table').DataTable({
-
-      dom: 'lBfrtip',
-      buttons: [{
-          titleAttr: "Novo",
-          className: "btn btn-success glyphicon glyphicon-save-file",
+  if ($("#data-table").length !== 0) {
+    tabelamedicos = $("#data-table").DataTable({
+      dom: "lBfrtip",
+      buttons: [
+        {
           text: "Novo",
-
-          action: function (e, dt, node, config, pdata) {
+          className: "btn btn-success glyphicon glyphicon-save-file",
+          action: function(e, dt, node, config, pdata) {
             cadastrarnovo();
           }
+        },
+        {
+          text: "Recarregar",
+          className: "btn btn-success glyphicon glyphicon-refresh",
+          action: function(e, dt, node, config, pdata) {
+          fechar();
+          }
         }
-
       ],
-      responsive: true,
+      responsive: !0,
       autoFill: false,
       colReorder: false,
       //keys: true,
       rowReorder: false,
-      "aaData": dadosconsulta,
-
+      aaData: dadosconsulta,
 
       select: true,
-      "aoColumns": [{
-          "sTitle": "Código"
+      aoColumns: [
+        {
+          sTitle: "Código"
         },
         {
-          "sTitle": "Nome"
+          sTitle: "Nome"
         },
         {
-          "sTitle": "Especialidade"
+          sTitle: "Especialidade"
         },
         {
-          "sTitle": "UF"
+          sTitle: "UF"
         },
         {
-          "sTitle": "Editar"
+          sTitle: "Editar"
         },
         {
-          "sTitle": "Deletar"
+          sTitle: "Deletar"
         }
-
       ],
-      "columnDefs": [{
-          "targets": -2,
-          "data": null,
-          "defaultContent": "<button id=" + 'bteditar' + " class=" + '"btn btn-success"' + ">Editar </button>",
-
+      columnDefs: [
+        {
+          targets: -2,
+          data: null,
+          defaultContent: "<button id=" + 'bteditar' + ' ' + "class=" + "btn" + ">Editar</button>"
         },
         {
-          "targets": -1,
-          "data": null,
-          "defaultContent": "<button id=" + 'btexcluir' + " class=" + '"btn btn-danger"' + ">Excluir</button>"
+          targets: -1,
+          data: null,
+          defaultContent: "<button id="+'btexcluir' + ' ' + "class="+"btn"+">Excluir</button>"
         }
       ],
 
       language: {
-        "lengthMenu": "Mostrar  _MENU_  itens ",
-        "zeroRecords": "Nada encontrado",
-        "info": "Total: _MAX_ Registro(s) -  Pagina:  _PAGE_ /  _PAGES_ ",
-        "infoEmpty": "Sem dados",
-        "loadingRecords": "Carregando...",
-        "processing": "Carregando...",
-        "search": "Pesquisa:",
-        "infoFiltered": "(Filtrado _TOTAL_ )",
-        "select": {
-          "rows": {
+        lengthMenu: "Mostrar  _MENU_  itens ",
+        zeroRecords: "Nada encontrado",
+        info: "Total: _MAX_ Registro(s) -  Pagina:  _PAGE_ /  _PAGES_ ",
+        infoEmpty: "Sem dados",
+        loadingRecords: "Carregando...",
+        processing: "Carregando...",
+        search: "Pesquisa:",
+        infoFiltered: "(Filtrado _TOTAL_ )",
+        select: {
+          rows: {
             "0": "",
             "1": "Selecionado 1 linha",
-            "_": "Selecionados %d linhas"
+            _: "Selecionados %d linhas"
           }
         },
-        "paginate": {
-          "previous": "Anterior",
-          "next": "Proximo",
-          "last": "Ultima",
-          "First": "Primeira"
+        paginate: {
+          previous: "Anterior",
+          next: "Proximo",
+          last: "Ultima",
+          First: "Primeira"
         }
       },
       processing: true
-
     });
 
-    $('#data-table tbody').on('click', '#bteditar', function () {
-      var data = tabelamedicos.row($(this).parents('tr')).data();
+    $("#data-table tbody").on("click", "#bteditar", function() {
+      var data = tabelamedicos.row($(this).parents("tr")).data();
       editarmedico(data[0]);
     });
 
-    $('#data-table tbody').on('click', '#btexcluir', function () {
-      var data = tabelamedicos.row($(this).parents('tr')).data();
+    $("#data-table tbody").on("click", "#btexcluir", function() {
+      var data = tabelamedicos.row($(this).parents("tr")).data();
       excluirmedico(data[0]);
     });
   }
@@ -800,24 +826,23 @@ var handleDataTableCombinationSetting = function () {
     todayHighlight: true,
     autoclose: true
   });*/
-
 };
 
-TableManageCombine = function () {
+TableManageCombine = (function() {
   "use strict";
   return {
     //main function
-    init: function () {
+    init: function() {
       handleDataTableCombinationSetting();
     }
   };
-}();
+})();
 
 function pad(str, length) {
   /*Coloca os zeros na esquerda, ou seja, arruma o formato data,
   pois o SQL entende dessa maneira*/
   const resto = length - String(str).length;
-  return '0'.repeat(resto > 0 ? resto : '0') + str;
+  return "0".repeat(resto > 0 ? resto : "0") + str;
 }
 
 function formatDate(stringDate) {
@@ -826,7 +851,13 @@ function formatDate(stringDate) {
   //Retornar ano atual + '-' + '0+(mês atual)' + 1 + '-' + '0+(dia atual)'
   /*o '2' é necessário para retornar o segundo número,
   e o '1' é necessário para retornar o primeiro número.*/
-  return date.getFullYear() + '-' + pad((date.getMonth() + 1), 2) + '-' + pad(date.getDate(), 2);
+  return (
+    date.getFullYear() +
+    "-" +
+    pad(date.getMonth() + 1, 2) +
+    "-" +
+    pad(date.getDate(), 2)
+  );
 }
 
 function toDate(dateStr) {
@@ -869,7 +900,9 @@ function toDate(dateStr) {
 }
 
 //if you have another AudioContext class use that one, as some browsers have a limit
-var audioCtx = new(window.AudioContext || window.webkitAudioContext || window.audioContext);
+var audioCtx = new (window.AudioContext ||
+  window.webkitAudioContext ||
+  window.audioContext)();
 
 //All arguments are optional:
 
@@ -899,9 +932,9 @@ function beep(duration, frequency, volume, type, callback) {
   }
 
   oscillator.start();
-  setTimeout(function () {
+  setTimeout(function() {
     oscillator.stop();
-  }, (duration ? duration : 500));
+  }, duration ? duration : 500);
 }
 
 function fechar() {

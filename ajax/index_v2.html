@@ -1,45 +1,67 @@
 <style>
-    .navbar {
-        margin-bottom: 0px;
+    html,
+    body {
+        height: 100%;
+        background-color: lightyellow;
     }
 
-    .jumbotron {
-        height: 100vh;
+    .jumbotron.vertical-center {
+        margin-bottom: 0;
+        background-color: gold;
+        color: black;
+        /* Remove the default bottom margin of .jumbotron */
     }
 
-    .jumbotron-section-1 {
-        padding-top: 70px !important;
-    }
+    .vertical-center {
+        min-height: 100%;
+        /* Fallback for vh unit */
+        min-height: 100vh;
+        /* You might also want to use
+                        'height' property instead.
+                        
+                        Note that for percentage values of
+                        'height' or 'min-height' properties,
+                        the 'height' of the parent element
+                        should be specified explicitly.
+  
+                        In this case the parent of '.vertical-center'
+                        is the <body> element */
+        /* Make it a flex container */
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
 
-    .jumbotron-section-1-bg {
-        background: no-repeat center center;
-        height: 768px;
-        background-size: 100%;
-    }
+        /* Align the bootstrap's container vertically */
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
 
-    .introduction {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        bottom: auto;
-        right: auto;
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        -moz-transform: translateX(-50%) translateY(-50%);
-        -ms-transform: translateX(-50%) translateY(-50%);
-        -o-transform: translateX(-50%) translateY(-50%);
-        transform: translateX(-50%) translateY(-50%);
-        text-align: center;
+        /* In legacy web browsers such as Firefox 9
+     we need to specify the width of the flex container */
         width: 100%;
-    }
 
-    .name {
-        font-family: "custom-headerfont", sans-serif;
+        /* Also 'margin: 0 auto' doesn't have any effect on flex items in such web browsers
+     hence the bootstrap's container won't be aligned to the center anymore.
+  
+     Therefore, we should use the following declarations to get it centered again */
+        -webkit-box-pack: center;
+        -moz-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
     }
 </style>
-<section class="jumbotron-section-1">
-    <div class="jumbotron no-margin jumbotron-section-1-bg">
-        <div class="container-fluid introduction">
-            <h1 class="name">Welcome back!</h1>
+<div class="jumbotron vertical-center">
+    <div class="container text-center">
+        <h1>Welcome Back, Paulo!</h1>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="top-bg"></div>
+            </div>
         </div>
-    </div>
-</section>
+        </div>
+        </div>
