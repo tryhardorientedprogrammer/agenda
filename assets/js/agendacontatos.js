@@ -770,10 +770,9 @@ var handleDataTableCombinationSetting = function() {
           defaultContent:
             "<button id=" +
             "bteditar" +
-            " " +
-            "class=" +
-            "btn" +
-            ">Editar</button>"
+            " class=" +
+            '"btn btn-success"' +
+            ">Editar </button>"
         },
         {
           targets: -1,
@@ -781,9 +780,8 @@ var handleDataTableCombinationSetting = function() {
           defaultContent:
             "<button id=" +
             "btexcluir" +
-            " " +
-            "class=" +
-            "btn" +
+            " class=" +
+            '"btn btn-danger"' +
             ">Excluir</button>"
         }
       ],
