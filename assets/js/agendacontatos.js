@@ -273,7 +273,7 @@ function atualizarMedicoServer() {
             title: "SUCESSO",
             text: "DADOS FORAM ATUALIZADOS/CADASTRADOS"
           });
-          document.getElementById("btexcluir").click();
+          fecharManual();
         } else {
           beep();
           swal({
@@ -345,9 +345,9 @@ function ExcluirMedicoServer(codigo) {
             title: "SUCESSO",
             text: "OS DADOS FORAM EXCLUÍDOS!"
           });
-          $('#recarregarespecial').trigger('click');
+          fecharManual();
         } else {
-          swal({  
+          swal({
             //verificar se os dados não foram encontrados, depois de ter inserido
             type: "error",
             title: "ERRO",
@@ -731,7 +731,7 @@ var handleDataTableCombinationSetting = function() {
           text: "Recarregar",
           className: "btn btn-success glyphicon glyphicon-refresh",
           action: function(e, dt, node, config, pdata) {
-          fechar();
+            fechar();
           }
         }
       ],
@@ -767,12 +767,24 @@ var handleDataTableCombinationSetting = function() {
         {
           targets: -2,
           data: null,
-          defaultContent: "<button id=" + 'bteditar' + ' ' + "class=" + "btn" + ">Editar</button>"
+          defaultContent:
+            "<button id=" +
+            "bteditar" +
+            " " +
+            "class=" +
+            "btn" +
+            ">Editar</button>"
         },
         {
           targets: -1,
           data: null,
-          defaultContent: "<button id="+'btexcluir' + ' ' + "class="+"btn"+">Excluir</button>"
+          defaultContent:
+            "<button id=" +
+            "btexcluir" +
+            " " +
+            "class=" +
+            "btn" +
+            ">Excluir</button>"
         }
       ],
 
@@ -940,4 +952,8 @@ function beep(duration, frequency, volume, type, callback) {
 function fechar() {
   tabelamedicos.clear();
   pesquisarporInicial(glbevt, glbletra);
+}
+
+function fecharManual() {
+  $("#recarregarespecial").trigger("click");
 }
