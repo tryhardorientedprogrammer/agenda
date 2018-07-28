@@ -1,2 +1,2 @@
 # agenda
-A agenda made in JavaScript that uses an API made with Java and SQL
+Please use XAMPP for run
