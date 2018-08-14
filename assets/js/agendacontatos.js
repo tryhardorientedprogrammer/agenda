@@ -238,7 +238,6 @@ function atualizarMedicoServer() {
     dtCad: dtCad,
     cdCidLogra: cdCidLogra
   };
-  //SE ESTIVER INSERINDO
   if (cdCtr == "0") {
     obj.push(dados);
     params = "obj=" + JSON.stringify(dados);
@@ -271,7 +270,7 @@ function atualizarMedicoServer() {
           });
         }
       } else {
-        var sstatus = this.status + " Erro nao tratado"; //verificando se o servidor está offline
+        var sstatus = this.status + " Erro nao tratado"; 
         switch (this.status) {
           case 0:
             sstatus = "Timeout de conexão";
@@ -301,15 +300,14 @@ function atualizarMedicoServer() {
       }
     }
   };
-  //VERIFICAR SE ESTA INSERINDO OU EDITANDO
-  //SE INSERINDO O CODIGO E VAZIO
+ 
   if (cdCtr == "0") {
-    xhr.open("POST", url, true); //ABRIR A CONEXAO COM O
+    xhr.open("POST", url, true); 
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   } else {
-    xhr.open("PUT", url, true); //ABRIR A CONEXAO COM O
+    xhr.open("PUT", url, true); 
   }
-  xhr.send(params); //PASSAR O JASOM PARA O SERVIDOR
+  xhr.send(params); 
 }
 
 function ExcluirMedicoServer(codigo) {
@@ -336,14 +334,13 @@ function ExcluirMedicoServer(codigo) {
           fecharManual();
         } else {
           swal({
-            //verificar se os dados não foram encontrados, depois de ter inserido
             type: "error",
             title: "ERRO",
             text: "OS DADOS NÃO FORAM EXCLUÍDOS!"
           });
         }
       } else {
-        var sstatus = this.status + "Erro desconhecido"; //verificando se o servidor está offline
+        var sstatus = this.status + "Erro desconhecido"; 
         switch (this.status) {
           case 0:
             sstatus = "Timeout de conexão";
@@ -375,15 +372,14 @@ function ExcluirMedicoServer(codigo) {
     }
   };
 
-  xhr.open("DELETE", url, true); //ABRIR A CONEXAO COM O
+  xhr.open("DELETE", url, true);
   xhr.setRequestHeader("Content-type", "application/json");
-  xhr.send(params); //PASSAR O json PARA O SERVIDOR
+  xhr.send(params);
 }
 
 function GetMedicos(nmMedico) {
-  //função para carregar os dados medico usando xhr
   var txtMedico = document.getElementById("txtmedico").value;
-  var xhr = new XMLHttpRequest(); //xhr
+  var xhr = new XMLHttpRequest(); 
   xhr.onreadystatechange = function() {
     if (this.readyState == 4) {
       if (this.status == 200) {
@@ -398,13 +394,13 @@ function GetMedicos(nmMedico) {
           });
         } else {
           tabelamedicos.clear();
-          criarTabela(myObj); //se os dados forem encontrados, referenciar modal e DataTables
+          criarTabela(myObj); 
           tabelamedicos.clear();
           tabelamedicos.rows.add(dadosconsulta);
           tabelamedicos.draw();
         }
       } else {
-        var sstatus = this.status + " - Erro não tratado"; //verificando se o servidor está offline
+        var sstatus = this.status + " - Erro não tratado"; 
         switch (this.status) {
           case 0:
             sstatus = "Erro na conexão";
@@ -443,7 +439,6 @@ function GetMedicos(nmMedico) {
     true
   );
   xhr.send();
-  //xhr get method
 }
 
 function getMedicosCdCtr(codigo) {
@@ -462,13 +457,13 @@ function getMedicosCdCtr(codigo) {
           });
         } else {
           tabelamedicos.clear();
-          criarTabela(myObj); //se os dados forem encontrados, referenciar modal e DataTables
+          criarTabela(myObj);
           tabelamedicos.clear();
           tabelamedicos.rows.add(dadosconsulta);
           tabelamedicos.draw();
         }
       } else {
-        var sstatus = this.status + " - Erro não tratado"; //verificando se o servidor está offline
+        var sstatus = this.status + " - Erro não tratado"; 
         switch (this.status) {
           case 0:
             sstatus = "Erro na conexão";
@@ -507,15 +502,11 @@ function getMedicosCdCtr(codigo) {
     true
   );
   xhr.send();
-  //xhr get method
 }
 
 function criarTabela(conteudo) {
-  //estrutura de como a tabela será feita
-  //ESTA FUNÇAO PREPARA O JSSON QUE IRA ALIMENTAR A TABELA
   dadosconsulta = [];
   for (var i = 0; i < conteudo.length; i++) {
-    //CONVERTE O VALOR NUMERICO PARA UM NOME DE ESPECIALIDADE
     var especialidade = "";
 
     switch (myObj[i].cdEspecialidade) {
@@ -589,9 +580,7 @@ function cadastrarnovo() {
 }
 
 function editarmedico(codigo) {
-  //CHAMA A PESQUISA
   GetMedicosCodigo(codigo);
-  //EXIBE O MODAL COM OS DADOS
   $("#modalconsulta").modal();
 }
 
@@ -613,8 +602,6 @@ function pesquisarporInicial(event, letra) {
   document.getElementById("ptitulotab").innerText =
     "Medicos iniciando com " + letra;
   event += "active";
-  // HTML events are "things" that happen to HTML elements.
-  // When JavaScript is used in HTML pages, JavaScript can "react" on these events.
 }
 
 function pesquisarNomeMedico(event) {
@@ -851,8 +838,6 @@ function toDate(dateStr) {
     d = new Date(year, month - 1, day);
     return d.toJSON();
   } else {
-    /*Caso não ocorra, retornar
-       a posição do "/" na string dateStr*/
     if (dateStr.indexOf("-") != -1) {
       const [year, month, day] = dateStr.split("-");
       d = new Date(year, month - 1, day);
