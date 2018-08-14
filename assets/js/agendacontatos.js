@@ -1,19 +1,9 @@
-/*
-Template Name: Color Admin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.7
-Version: 2.1.0
-Author: paulo cezar luz
-*/
 var tabelamedicos;
 var dadosconsulta = [];
 var glbevt = {};
 var glbletra = "";
-//----------------------------------------------------------------------------------------------
-//FUNCÕES DE CONSULTAS--------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------
-function GetMedicosCodigo(codigo) {
-  //função para carregar os dados medico usando xhr
 
-  //nessa função não precisa de validar limite de caracteres
+function GetMedicosCodigo(codigo) {
 
   var xhr = new XMLHttpRequest(); //xhr
   xhr.timeout = 10000;
@@ -26,13 +16,11 @@ function GetMedicosCodigo(codigo) {
         if (typeof myObj[0] == "undefined") {
           beep();
           swal({
-            //verificar se os dados não foram encontrados, depois de ter inserido
             type: "error",
             title: "ERRO",
             text: "DADOS NÃO ENCONTRADOS"
           });
         } else {
-          //ENCHER O MODAL COM OS DADOS DO RESULTADO
           document.getElementById("cdCtr").value = myObj[0].cdCtr;
           document.getElementById("nmMedico").value = myObj[0].nmMedico;
           document.getElementById("cdEspecialidade").selectedIndex =
@@ -99,7 +87,7 @@ function GetMedicosCodigo(codigo) {
             );
         }
       } else {
-        var sstatus = this.status + " - Erro não tratado"; //verificando se o servidor está offline
+        var sstatus = this.status + " - Erro não tratado"; 
         switch (this.status) {
           case 0:
             sstatus = "Erro na conexão";
@@ -131,7 +119,7 @@ function GetMedicosCodigo(codigo) {
   };
   xhr.open(
     "GET",
-    'http://177.72.161.135:9180/soa/esb/cupom/glbMedicos?obj={"cdCtr":' +
+   "cdCtr":' +
       codigo +
       "}",
     true
@@ -259,7 +247,7 @@ function atualizarMedicoServer() {
   }
   var msgServer;
   var xhr = new XMLHttpRequest(); //xhr
-  var url = "http://177.72.161.135:9180/soa/esb/cupom/glbMedicos";
+  var url = "";
 
   xhr.onreadystatechange = function() {
     if (this.readyState == 4) {
@@ -331,7 +319,7 @@ function ExcluirMedicoServer(codigo) {
   };
   var msgServer;
   var xhr = new XMLHttpRequest(); //xhr
-  var url = "http://177.72.161.135:9180/soa/esb/cupom/glbMedicos";
+  var url = "";
   var params = JSON.stringify(dados);
   xhr.onreadystatechange = function() {
     if (this.readyState == 4) {
@@ -449,7 +437,7 @@ function GetMedicos(nmMedico) {
 
   xhr.open(
     "GET",
-    'http://177.72.161.135:9180/soa/esb/cupom/glbMedicos?obj={"nmMedico":"' +
+    '"nmMedico":"' +
       nmMedico +
       '"}',
     true
@@ -513,7 +501,7 @@ function getMedicosCdCtr(codigo) {
 
   xhr.open(
     "GET",
-    'http://177.72.161.135:9180/soa/esb/cupom/glbMedicos?obj={"cdCtr":"' +
+    'obj="cdCtr":"' +
       codigo +
       '"}',
     true
@@ -522,9 +510,6 @@ function getMedicosCdCtr(codigo) {
   //xhr get method
 }
 
-//----------------------------------------------------------------------------------------------
-//FUNCÕES PARA INTERAÇÃO COM O HTML-------------------------------------------------------------
-//----------------------------------------------------------------------------------------------
 function criarTabela(conteudo) {
   //estrutura de como a tabela será feita
   //ESTA FUNÇAO PREPARA O JSSON QUE IRA ALIMENTAR A TABELA
@@ -557,7 +542,7 @@ function criarTabela(conteudo) {
       myObj[i].ufDoc,
       "0",
       "",
-      "" //coluna vazio para colocar os botoes no grid
+      "" 
     ];
     dadosconsulta.push(idata);
   }
@@ -709,10 +694,6 @@ function limparModal() {
   document.getElementById("cd_cid_logra").value = "1";
 }
 
-//----------------------------------------------------------------------------------------------
-//INICIALIZAR O DATATABLE-----------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------
-
 var handleDataTableCombinationSetting = function() {
   "use strict";
 
@@ -823,7 +804,6 @@ var handleDataTableCombinationSetting = function() {
     });
   }
 
-  /*ATIVAR O DATEPICKER PARA APARECER A DATA FORMATADA
   $('#dt_cad').datepicker({
     todayHighlight: true,
     autoclose: true
@@ -849,18 +829,12 @@ TableManageCombine = (function() {
 })();
 
 function pad(str, length) {
-  /*Coloca os zeros na esquerda, ou seja, arruma o formato data,
-  pois o SQL entende dessa maneira*/
   const resto = length - String(str).length;
   return "0".repeat(resto > 0 ? resto : "0") + str;
 }
 
 function formatDate(stringDate) {
-  //Date Object ISO
   var date = new Date(stringDate);
-  //Retornar ano atual + '-' + '0+(mês atual)' + 1 + '-' + '0+(dia atual)'
-  /*o '2' é necessário para retornar o segundo número,
-  e o '1' é necessário para retornar o primeiro número.*/
   return (
     date.getFullYear() +
     "-" +
@@ -872,55 +846,26 @@ function formatDate(stringDate) {
 
 function toDate(dateStr) {
   var d = new Date();
-  /*retorna a posição do "/" na string dateStr, e o valor,
-  retornado não deve ser igual a -1*/
   if (dateStr.indexOf("/") != -1) {
-    /*const é um tipo de variável que não pode ser declarada
-    ou modificada
-    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
-    o método split divide a string em substrings
-    https://www.w3schools.com/jsref/jsref_split.asp
-    então retorna o ano em uma substring
-    o mês em uma substring e o dia em uma substring*/
     const [day, month, year] = dateStr.split("/");
-    /*Método para o date object retornar o ano atual,
-    mês - 1 e o dia*/
     d = new Date(year, month - 1, day);
-    /*Retornar a variável data no formato JSON*/
     return d.toJSON();
   } else {
     /*Caso não ocorra, retornar
        a posição do "/" na string dateStr*/
     if (dateStr.indexOf("-") != -1) {
-      /*const é um tipo de variável que não pode ser declarada
-      ou modificada
-      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
-      o método split divide a string em substrings
-      https://www.w3schools.com/jsref/jsref_split.asp
-      então retorna o ano em uma substring
-      o mês em uma substring e o dia em uma substring*/
       const [year, month, day] = dateStr.split("-");
-      /*Método para o date object retornar o ano atual,
-      mês - 1 e o dia*/
       d = new Date(year, month - 1, day);
-      //Retorna a variável data no formato JSON
+
       return d.toJSON();
     }
   }
 }
 
-//if you have another AudioContext class use that one, as some browsers have a limit
 var audioCtx = new (window.AudioContext ||
   window.webkitAudioContext ||
   window.audioContext)();
 
-//All arguments are optional:
-
-//duration of the tone in milliseconds. Default is 500
-//frequency of the tone in hertz. default is 440
-//volume of the tone. Default is 1, off is 0.
-//type of tone. Possible values are sine, square, sawtooth, triangle, and custom. Default is sine.
-//callback to use on end of tone
 function beep(duration, frequency, volume, type, callback) {
   var oscillator = audioCtx.createOscillator();
   var gainNode = audioCtx.createGain();
