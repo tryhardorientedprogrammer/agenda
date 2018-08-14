@@ -117,7 +117,7 @@ function GetMedicosCodigo(codigo) {
       }
     }
   };
-  xhr.open(
+/* xhr.open(
     "GET",
    "cdCtr":' +
       codigo +
@@ -125,7 +125,7 @@ function GetMedicosCodigo(codigo) {
     true
   );
   xhr.send();
-  //xhr get method
+  //xhr get method*/
 }
 
 function atualizarMedicoServer() {
